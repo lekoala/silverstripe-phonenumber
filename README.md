@@ -21,6 +21,14 @@ Sample code:
 	$validator = ZenValidator::create();
 	$validator->setConstraint('phone', Constraint_remote::create('/libphonenumber/validate'));
 
+This module also provide an extension to apply to dataobject, for example to members
+
+	Member:
+      extensions:
+        - LibPhoneNumberExtension
+
+This will add to fields, one "CountryCode" and one "PhoneNumber"
+
 Compatibility
 ==================
 Tested with Silverstripe 3.1

@@ -211,8 +211,15 @@ class LibPhoneNumberField extends TextField {
 		return true;
 	}
 
+	public static function isBackendController() {
+		return is_subclass_of(Controller::curr(), "LeftAndMain");
+	}
+
 	public function Field($properties = array()) {
 		Requirements::javascript('phonenumber/javascript/LibPhoneNumberField.js');
+		if(self::isBackendController()) {
+			LeftAndMain::require_javascript('phonenumber/javascript/LibPhoneNumberField.js');
+		}
 		$this->setAttribute('data-remote', '/libphonenumber/format');
 		$this->setAttribute('data-country', $this->countryCode);
 		$this->setAttribute('data-format', $this->format);
