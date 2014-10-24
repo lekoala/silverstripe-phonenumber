@@ -11,6 +11,11 @@ class LibPhoneNumberController extends Controller {
 
 	public function validate(SS_HTTPRequest $request) {
 		$rawNumber = $request->getVar('number');
+		if(!$rawNumber) {
+			$qs = array_values($_GET);
+			array_shift($qs); //remove first that is always url
+			$rawNumber = array_shift($qs);
+		}
 		$country = $request->getVar('country');
 		try {
 			$result = LibPhoneNumberField::validatePhoneNumber($rawNumber, $country);

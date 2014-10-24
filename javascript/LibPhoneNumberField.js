@@ -1,6 +1,8 @@
+
+
 (function ($) {
 
-	$('.libphonenumber').on('blur', function () {
+	function onblur() {
 		var $this = $(this);
 		var data = {
 			number: $(this).val()
@@ -22,6 +24,20 @@
 				$this.val(res);
 			}
 		});
-	});
+		return false;
+	}
+
+	if ($.entwine) {
+		//cms
+		$.entwine('ss', function ($) {
+			$('.libphonenumber').entwine({
+				onfocusout: onblur
+			});
+		});
+	}
+	else {
+		//if entwine is not loaded
+		$('.libphonenumber').on('blur', onblur);
+	}
 
 }(jQuery));

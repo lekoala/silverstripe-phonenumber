@@ -19,7 +19,7 @@ Sample code:
 	$phone->setCountryCode('BE');
 	
 	$validator = ZenValidator::create();
-	$validator->setConstraint('phone', Constraint_remote::create('/libphonenumber/validate'));
+	$validator->setConstraint('phone', Constraint_remote::create('/libphonenumber/validate',null,array('data' => array('country' => 'BE'))));
 
 This module also provide an extension to apply to dataobject, for example to members
 
@@ -27,7 +27,7 @@ This module also provide an extension to apply to dataobject, for example to mem
       extensions:
         - LibPhoneNumberExtension
 
-This will add to fields, one "CountryCode" and one "PhoneNumber"
+This will add to fields, one "CountryCode" and one "PhoneNumber" to the data object.
 
 Compatibility
 ==================

@@ -159,7 +159,7 @@ class LibPhoneNumberField extends TextField {
 	 */
 	public function getTargetCountryCode() {
 		$countryCode = $this->countryCode;
-		if ($this->countryField) {
+		if ($this->countryField && $this->form) {
 			$field = $this->form->Fields()->dataFieldByName($this->countryField);
 			if ($field) {
 				$countryCode = $field->Value();
@@ -218,7 +218,6 @@ class LibPhoneNumberField extends TextField {
 	public function Field($properties = array()) {
 		Requirements::javascript('phonenumber/javascript/LibPhoneNumberField.js');
 		if(self::isBackendController()) {
-			LeftAndMain::require_javascript('phonenumber/javascript/LibPhoneNumberField.js');
 		}
 		$this->setAttribute('data-remote', '/libphonenumber/format');
 		$this->setAttribute('data-country', $this->countryCode);
