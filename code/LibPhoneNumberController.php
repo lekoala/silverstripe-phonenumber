@@ -10,7 +10,9 @@ class LibPhoneNumberController extends Controller {
 	private static $allowed_actions = array('validate', 'format');
 
 	public function validate(SS_HTTPRequest $request) {
-		$rawNumber = $request->getVar('number');
+		$fieldname = $request->getVar('field') ? $request->getVar('field') : 'number';
+		$rawNumber = $request->getVar($fieldname);
+		//as a fallback solution, we get the first $_GET parameter
 		if(!$rawNumber) {
 			$qs = array_values($_GET);
 			array_shift($qs); //remove first that is always url
@@ -22,7 +24,7 @@ class LibPhoneNumberController extends Controller {
 			if($result) {
 				return 1;
 			}
-			$this->httpError(400,0);
+			return $this->httpError(400,0);
 		} catch (\libphonenumber\NumberParseException $e) {
 			SS_Log::log($e->getMessage(), SS_Log::DEBUG);
 			return $this->httpError(400, $e->getMessage());
