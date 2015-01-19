@@ -7,3 +7,6 @@ After:
 Director:
   rules:
     'libphonenumber//$Action/$ID/$Name': 'LibPhoneNumberController'
+Member:
+  extensions:
+    - 'PhoneNumberExtension'
