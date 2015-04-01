@@ -29,6 +29,17 @@ This module also provide an extension to apply to dataobject, for example to mem
 
 This will add to fields, one "CountryCode" and one "PhoneNumber" to the data object.
 
+Twilio lookup
+------------------
+
+You can also make lookups with Twilio provided that you have defined the following constants:
+
+	define('TWILIO_ACCOUNT_SID','');
+	define('TWILIO_AUTH_TOKEN','');
+
+Twilio lookups are accessible through the controller (/libphonenumber/lookup) or
+through a static method PhoneNumberExtension::twilioLookup()
+
 Compatibility
 ==================
 Tested with Silverstripe 3.1
