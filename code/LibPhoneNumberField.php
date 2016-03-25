@@ -104,7 +104,7 @@ class LibPhoneNumberField extends TextField {
 	/**
 	 * Format phone number. Error in formatting result in an NumberParseException
 	 * that you must catch yourself.
-	 * 
+	 *
 	 * @throws libphonenumber\NumberParseException
 	 * @param string $value
 	 * @param string $country
@@ -135,7 +135,7 @@ class LibPhoneNumberField extends TextField {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $value
 	 * @param string $country
 	 * @param string $format
@@ -187,7 +187,7 @@ class LibPhoneNumberField extends TextField {
 	/**
 	 * Please note that we do NOT validate an empty field. Add a required
 	 * constraint if you want a value
-	 * 
+	 *
 	 * @param Validator $validator
 	 * @return boolean
 	 */

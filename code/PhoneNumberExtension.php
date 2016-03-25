@@ -15,7 +15,7 @@ class PhoneNumberExtension extends DataExtension
 
     /**
      * Make a lookup with Twilio
-     * 
+     *
      * @param string $phone
      * @param string $country 2 chars country code
      * @return string A json string
