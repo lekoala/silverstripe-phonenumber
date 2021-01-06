@@ -1,8 +1,8 @@
-# SilverStripe i18n tools module
+# SilverStripe PhoneNumber module
 
-[![Build Status](https://travis-ci.com/lekoala/silverstripe-multilingual.svg?branch=master)](https://travis-ci.com/lekoala/silverstripe-multilingual/)
-[![scrutinizer](https://scrutinizer-ci.com/g/lekoala/silverstripe-multilingual/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lekoala/silverstripe-multilingual/)
-[![Code coverage](https://codecov.io/gh/lekoala/silverstripe-multilingual/branch/master/graph/badge.svg)](https://codecov.io/gh/lekoala/silverstripe-multilingual)
+[![Build Status](https://travis-ci.com/lekoala/silverstripe-phonenumber.svg?branch=master)](https://travis-ci.com/lekoala/silverstripe-phonenumber/)
+[![scrutinizer](https://scrutinizer-ci.com/g/lekoala/silverstripe-phonenumber/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lekoala/silverstripe-phonenumber/)
+[![Code coverage](https://codecov.io/gh/lekoala/silverstripe-phonenumber/branch/master/graph/badge.svg)](https://codecov.io/gh/lekoala/silverstripe-phonenumber)
 
 ## Intro
 
