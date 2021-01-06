@@ -1,9 +1,0 @@
----
-Name: phonenumber
-After:
-  - 'framework/*'
-  - 'cms/*'
----
-Director:
-  rules:
-    'libphonenumber//$Action/$ID/$Name': 'LibPhoneNumberController'

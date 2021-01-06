@@ -1,0 +1,10 @@
+---
+Name: phonenumber
+After: '#corefieldtypes'
+---
+SilverStripe\Control\Director:
+  rules:
+    '__phonenumber//$Action/$ID/$Name': 'LeKoala\PhoneNumber\LibPhoneNumberController'
+SilverStripe\Core\Injector\Injector:
+  Phone:
+    class: 'LeKoala\PhoneNumber\DBPhone'

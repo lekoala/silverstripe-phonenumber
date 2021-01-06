@@ -1,49 +1,57 @@
-Silverstripe Phonenumber module
-==================
-Provide some helper services to deal with phone numbers in Silverstripe
+# SilverStripe i18n tools module
+
+[![Build Status](https://travis-ci.com/lekoala/silverstripe-multilingual.svg?branch=master)](https://travis-ci.com/lekoala/silverstripe-multilingual/)
+[![scrutinizer](https://scrutinizer-ci.com/g/lekoala/silverstripe-multilingual/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lekoala/silverstripe-multilingual/)
+[![Code coverage](https://codecov.io/gh/lekoala/silverstripe-multilingual/branch/master/graph/badge.svg)](https://codecov.io/gh/lekoala/silverstripe-multilingual)
+
+## Intro
+
+Provide some helper services to deal with phone numbers in SilverStripe
 
 This module integrates libphonenumber as the utility to parse and validate
-phonenumbers. The fork used is : https://github.com/giggsey/libphonenumber-for-php
+phonenumbers.
 
 Most of the time, it's a good idea to set the country of the phone number.
-Otherwise, current locale will be used. If the country is dynamic, you can
-set a country field thanks to the setCountryField method.
-
-The value is dynamically formatted through ajax to avoid loading huge js libraries.
-You can also easily validate values (for example, with a ZenValidator remote
-constraint which targets /libphonenumber/validate url) if needed.
+Otherwise, current locale will be used.
 
 Sample code:
 
-	$phone = new LibPhoneNumberField('phone', 'Phone number');
-	$phone->setCountryCode('BE');
-	
+	$phone = new PhoneField('phone', 'Phone number');
+	$phone->setCountryField('CountryCode');
+
 	$validator = ZenValidator::create();
-	$validator->setConstraint('phone', Constraint_remote::create('/libphonenumber/validate',null,array('data' => array('country' => 'BE'))));
+	$validator->setConstraint('phone', Constraint_remote::create('/__phonenumber/validate',null,array('data' => array('country' => 'BE'))));
 
 This module also provide an extension to apply to dataobject, for example to members
 
-	Member:
+	SilverStripe\Security\Member:
       extensions:
-        - LibPhoneNumberExtension
+        - LeKoala\PhoneNumber\PhoneNumberExtension
 
-This will add to fields, one "CountryCode" and one "PhoneNumber" to the data object.
+## Phone DBField
 
-Twilio lookup
-------------------
+You can set your DataObject db field to Phone or DBPhone::class
 
-You can also make lookups with Twilio provided that you have defined the following constants:
+This will automatically scaffold a CountryPhoneField which is a combo field with a country dropdown (with list of prefixes) and a space for the field itself
 
-	define('TWILIO_ACCOUNT_SID','');
-	define('TWILIO_AUTH_TOKEN','');
+## Form fields
 
-Twilio lookups are accessible through the controller (/libphonenumber/lookup) or
-through a static method PhoneNumberExtension::twilioLookup()
+Two available fields:
+- PhoneField : a plain phone field that supports national and international numbers
+- CountryPhoneField : a combo field with a country dropdown + national phone number
 
-Compatibility
-==================
-Tested with Silverstripe 3.1
+## Ajax validation and formatting
 
-Maintainer
-==================
+Expose ´__phonenumber/validate´ and ´__phonenumber/format´ endpoints for validation and formatting of phone numbers
+
+## Todo
+
+None
+
+## Compatibility
+
+Tested with 4.6 but should work on any ^4 projects
+
+## Maintainer
+
 LeKoala - thomas@lekoala.be

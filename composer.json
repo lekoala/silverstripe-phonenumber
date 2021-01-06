@@ -1,22 +1,48 @@
 {
-	"name": "lekoala/silverstripe-phonenumber",
-	"description": "Adds libphonenumber to Silverstripe",
-	"type": "silverstripe-module",
-	"keywords": ["silverstripe", "libphonenumber", "module", "cms"],
-	"license": "BSD-3-Clause",
-	"authors": [
-		{
-			"name": "LeKoala",
-			"email": "thomas@lekoala.be"
-		}
-	],
-	"require":
-			{
-				"silverstripe/framework": "~3.1",
-				"giggsey/libphonenumber-for-php": "~7.0"
-			},
-	"extra": {
-		"installer-name": "phonenumber"
-	}
-
+    "name": "lekoala/silverstripe-phonenumber",
+    "description": "Format, store and validate phone number in SilverStripe",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "silverstripe",
+        "phonenumber",
+        "i18n",
+        "module",
+        "cms"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LeKoala",
+            "email": "thomas@lekoala.be"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "silverstripe/recipe-plugin": "^1",
+        "silverstripe/recipe-cms": "^4.4"
+    },
+    "require-dev": {
+        "sminnee/phpunit": "^5.7",
+        "squizlabs/php_codesniffer": "^3.0",
+        "giggsey/libphonenumber-for-php": "^8"
+    },
+    "extra": {
+        "installer-name": "phonenumber"
+    },
+    "autoload": {
+        "psr-4": {
+            "LeKoala\\PhoneNumber\\": "src/",
+            "LeKoala\\PhoneNumber\\Test\\": "tests/"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/lekoala/silverstripe-phonenumber/issues"
+    },
+    "scripts": {
+        "lint": "phpcs src/ tests/",
+        "lint-clean": "phpcbf src/ tests/",
+        "test": "phpunit -v"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

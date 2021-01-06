@@ -1,0 +1,4 @@
+'LeKoala\PhoneNumber\Test\Test_PhoneNumberModel':
+  default:
+    Phone: '+32473123456' # in E164 format
+    CountryCode: 'BE'
