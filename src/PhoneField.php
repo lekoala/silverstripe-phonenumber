@@ -76,7 +76,7 @@ class PhoneField extends TextField
     {
         $value = $this->Value();
         if (strpos($value, '+') === 0) {
-            $util = self::getPhoneNumberUtil();
+            $util = PhoneHelper::getPhoneNumberUtil();
             try {
                 $number = $util->parse($value);
                 $formatted = $util->format($number, PhoneNumberFormat::E164);
