@@ -16,6 +16,7 @@ class CountryPhoneField extends FieldGroup
     {
         $country = new DropdownField($name . "[CountryCode]", "");
         $country->setSource(PhoneHelper::getCountriesList());
+        $country->setHasEmptyDefault(true);
         $country->setAttribute('style', 'max-width:166px'); // Match FieldGroup min width
         $country->setAttribute('size', 1); // fix some weird sizing issue in cms
 
