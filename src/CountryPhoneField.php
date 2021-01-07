@@ -35,7 +35,7 @@ class CountryPhoneField extends FieldGroup
     }
 
     /**
-     * @return CountryDropdownField
+     * @return DropdownField
      */
     public function getCountryField()
     {
@@ -94,7 +94,13 @@ class CountryPhoneField extends FieldGroup
         }
 
         $util = PhoneHelper::getPhoneNumberUtil();
-        $number = $util->parse($phoneValue, $countryValue);
-        return $util->format($number, PhoneNumberFormat::E164);
+
+        try {
+            $number = $util->parse($phoneValue, $countryValue);
+            return $util->format($number, PhoneNumberFormat::E164);
+        } catch (Exception $ex) {
+            // We were unable to parse, simply return the value as is
+            return $phoneValue;
+        }
     }
 }
