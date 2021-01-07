@@ -1,7 +1,7 @@
 nl:
-  LibPhoneNumberExtensie:
+  LibPhoneNumberExtension:
     CountryCode: Land
     MobilePhoneNumber: 'Mobiele telefoon'
     PhoneNumber: Telefoon
-  Telefoonnummer Veld:
-    VALIDATIE: 'Voer een geldig telefoonnummer in'
+  PhoneNumberField:
+    VALIDATION: 'Voer een geldig telefoonnummer in'
