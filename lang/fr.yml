@@ -1,7 +1,7 @@
 fr:
   LibPhoneNumberExtension:
-    CountryCode: Country
-    MobilePhoneNumber: 'Mobile Phone'
-    PhoneNumber: Phone
+    CountryCode: Pays
+    MobilePhoneNumber: 'Téléphone mobile'
+    PhoneNumber: Téléphone
   PhoneNumberField:
-    VALIDATION: 'Please enter a valid phone number'
+    VALIDATION: "Veuillez saisir un numéro de téléphone valide"
