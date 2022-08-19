@@ -119,7 +119,7 @@ class DBPhone extends DBVarchar
      * Same as E164 with spacing
      * Eg: +44 117 496 0123
      *
-     * @return void
+     * @return string
      */
     public function International()
     {
@@ -130,7 +130,7 @@ class DBPhone extends DBVarchar
      * With space and without country
      * Eg: 0117 496 0123
      *
-     * @return void
+     * @return string
      */
     public function National()
     {
