@@ -29,12 +29,12 @@ class PhoneField extends TextField
 
     public function setValue($value, $data = null)
     {
-        $isInternational = strpos($value, '+') === 0;
+        $isInternational = strpos((string)$value, '+') === 0;
         if (!$isInternational && $this->countryField) {
             if (isset($data[$this->countryField])) {
                 $countryValue = $data[$this->countryField];
 
-                if (strpos($countryValue, '+') === 0) {
+                if (strpos((string)$countryValue, '+') === 0) {
                     // It's a + prefix, eg +33, +32
                     $value = $countryValue . ltrim($value, 0);
                 } elseif (is_numeric($countryValue)) {
@@ -50,7 +50,7 @@ class PhoneField extends TextField
             }
 
             // Test again!
-            $isInternational = strpos($value, '+') === 0;
+            $isInternational = strpos((string)$value, '+') === 0;
         }
         // We have an international number that we can format easily
         // without knowing the country
@@ -75,7 +75,7 @@ class PhoneField extends TextField
     public function dataValue()
     {
         $value = $this->Value();
-        if (strpos($value, '+') === 0) {
+        if (strpos((string)$value, '+') === 0) {
             $util = PhoneHelper::getPhoneNumberUtil();
             try {
                 $number = $util->parse($value);

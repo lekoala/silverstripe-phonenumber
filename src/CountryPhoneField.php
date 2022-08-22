@@ -60,7 +60,7 @@ class CountryPhoneField extends FieldGroup
             return;
         }
         // It's an international number
-        if (strpos($value, '+') === 0) {
+        if (strpos((string)$value, '+') === 0) {
             $util = PhoneHelper::getPhoneNumberUtil();
             try {
                 $number = $util->parse($value);
@@ -89,7 +89,7 @@ class CountryPhoneField extends FieldGroup
         if (!$phoneValue) {
             return '';
         }
-        if (!$countryValue && strpos($phoneValue, '+') !== 0) {
+        if (!$countryValue && strpos((string)$phoneValue, '+') !== 0) {
             return $phoneValue;
         }
 
