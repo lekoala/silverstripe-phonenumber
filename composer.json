@@ -27,20 +27,7 @@
         "giggsey/libphonenumber-for-php": "^8"
     },
     "extra": {
-        "installer-name": "phonenumber",
-        "project-files-installed": [
-            "app/.htaccess",
-            "app/_config.php",
-            "app/_config/mimevalidator.yml",
-            "app/_config/mysite.yml",
-            "app/src/Page.php",
-            "app/src/PageController.php"
-        ],
-        "public-files-installed": [
-            ".htaccess",
-            "index.php",
-            "web.config"
-        ]
+        "installer-name": "phonenumber"
     },
     "autoload": {
         "psr-4": {
