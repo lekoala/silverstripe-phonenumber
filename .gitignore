@@ -1,0 +1,6 @@
+/resources
+/vendor
+/composer.lock
+/app
+/index.php
+/web.config
