@@ -12,6 +12,8 @@ use SilverStripe\Forms\DropdownField;
  */
 class CountryPhoneField extends FieldGroup
 {
+    protected $dataformat = null;
+
     public function __construct($name, $title = null, $value = null)
     {
         $country = new DropdownField($name . "[CountryCode]", "");
@@ -48,6 +50,17 @@ class CountryPhoneField extends FieldGroup
     public function getPhoneField()
     {
         return $this->fieldByName($this->name . "[Number]");
+    }
+
+    public function getDataFormat()
+    {
+        return $this->dataformat;
+    }
+
+    public function setDataFormat($v)
+    {
+        $this->dataformat = $v;
+        return $this;
     }
 
     public function setValue($value, $data = null)
@@ -97,7 +110,8 @@ class CountryPhoneField extends FieldGroup
 
         try {
             $number = $util->parse($phoneValue, $countryValue);
-            return $util->format($number, PhoneNumberFormat::E164);
+            $format = $this->dataformat ?? PhoneNumberFormat::E164;
+            return $util->format($number, $format);
         } catch (Exception $ex) {
             // We were unable to parse, simply return the value as is
             return $phoneValue;
