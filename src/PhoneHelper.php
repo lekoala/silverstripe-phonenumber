@@ -357,7 +357,6 @@ class PhoneHelper
      * Format phone number. Error in formatting result in an NumberParseException
      * that you must catch yourself.
      *
-     * @throws NumberParseException
      * @param string $value
      * @param string $country An ISO 3166-1 two letter country code.
      * @param string $format NATIONAL by default (=> UPPERCASE)
@@ -388,7 +387,12 @@ class PhoneHelper
             $country = null;
         }
 
-        $number = $util->parse($value, $country);
+        // Don't fail
+        try {
+            $number = $util->parse($value, $country);
+        } catch (NumberParseException $e) {
+            return $value;
+        }
 
         // It's not valid, simply return the given value
         if (!$util->isValidNumber($number)) {
