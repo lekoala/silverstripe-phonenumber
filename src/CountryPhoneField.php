@@ -16,6 +16,7 @@ class CountryPhoneField extends FieldGroup
 
     public function __construct($name, $title = null, $value = null)
     {
+
         $country = new DropdownField($name . "[CountryCode]", "");
         $country->setSource(PhoneHelper::getCountriesList());
         $country->setHasEmptyDefault(true);
@@ -23,6 +24,7 @@ class CountryPhoneField extends FieldGroup
         $country->setAttribute('size', 1); // fix some weird sizing issue in cms
 
         $number = new PhoneField($name . "[Number]", "");
+        $number->setAttribute('data-value', $value);
 
         parent::__construct($title, $country, $number);
 
@@ -65,6 +67,8 @@ class CountryPhoneField extends FieldGroup
 
     public function setValue($value, $data = null)
     {
+        $this->fieldByName($this->name . "[Number]")->setAttribute('data-value', $value);
+
         // An array of value to assign to sub fields
         if (is_array($value)) {
             foreach ($value as $k => $v) {
