@@ -12,11 +12,13 @@ use SilverStripe\Forms\DropdownField;
  */
 class CountryPhoneField extends FieldGroup
 {
+    /**
+     * @var ?string
+     */
     protected $dataformat = null;
 
     public function __construct($name, $title = null, $value = null)
     {
-
         $country = new DropdownField($name . "[CountryCode]", "");
         $country->setSource(PhoneHelper::getCountriesList());
         $country->setHasEmptyDefault(true);
@@ -30,7 +32,6 @@ class CountryPhoneField extends FieldGroup
 
         $this->name = $name;
     }
-
 
     public function hasData()
     {
