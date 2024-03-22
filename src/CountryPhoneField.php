@@ -14,22 +14,30 @@ use SilverStripe\ORM\DataObject;
  */
 class CountryPhoneField extends FieldGroup
 {
+    const COUNTRY_CODE_FIELD = "CountryCode";
+    const NUMBER_FIELD = 'Number';
     /**
      * @var int
      */
     protected $dataformat = 0; // E164, see libphonenumber/PhoneNumberFormat
 
+    /**
+     * @param string $name
+     * @param string|null $title
+     * @param mixed $value
+     */
     public function __construct($name, $title = null, $value = null)
     {
-        PhoneHelper::listCountryPrefixes();
-        $country = new DropdownField($name . "[CountryCode]", "");
+        $country = new DropdownField($name . "[" . self::COUNTRY_CODE_FIELD . "]", "");
         $country->setSource(PhoneHelper::getCountriesList());
         $country->setHasEmptyDefault(true);
         $country->setAttribute('style', 'max-width:166px'); // Match FieldGroup min width
         $country->setAttribute('size', 1); // fix some weird sizing issue in cms
 
-        $number = new PhoneField($name . "[Number]", "");
+        $number = new PhoneField($name . "[" . self::NUMBER_FIELD . "]", "");
         $number->setAttribute('data-value', $value);
+        // We can use a national friendly format because it's next to the country
+        $number->setDisplayFormat(PhoneNumberFormat::NATIONAL);
 
         parent::__construct($title, $country, $number);
 
@@ -47,7 +55,7 @@ class CountryPhoneField extends FieldGroup
      */
     public function getCountryField()
     {
-        return $this->fieldByName($this->name . "[CountryCode]");
+        return $this->fieldByName($this->name . "[" . self::COUNTRY_CODE_FIELD . "]");
     }
 
     /**
@@ -55,7 +63,7 @@ class CountryPhoneField extends FieldGroup
      */
     public function getPhoneField()
     {
-        return $this->fieldByName($this->name . "[Number]");
+        return $this->fieldByName($this->name . "[" . self::NUMBER_FIELD . "]");
     }
 
     /**
@@ -83,12 +91,18 @@ class CountryPhoneField extends FieldGroup
      */
     public function setValue($value, $data = null)
     {
-        $this->fieldByName($this->name . "[Number]")->setAttribute('data-value', $value);
+        $this->fieldByName($this->name . "[" . self::NUMBER_FIELD . "]")->setAttribute('data-value', $value);
 
         // An array of value to assign to sub fields
         if (is_array($value)) {
-            foreach ($value as $k => $v) {
-                $this->fieldByName($this->name . "[$k]")->setValue($v);
+            $countryCode = $value[self::COUNTRY_CODE_FIELD] ?? null;
+            $number = $value[self::NUMBER_FIELD] ?? null;
+            if ($countryCode) {
+                $this->getCountryField()->setValue($countryCode);
+            }
+            if ($number) {
+                $this->getPhoneField()->setValue($number);
+                $this->getPhoneField()->setCountryCode($countryCode);
             }
             return $this;
         }
@@ -137,5 +151,26 @@ class CountryPhoneField extends FieldGroup
             // We were unable to parse, simply return the value as is
             return $phoneValue;
         }
+    }
+
+    /**
+     * Get the value of isMobile
+     * @return bool
+     */
+    public function getIsMobile()
+    {
+        return $this->getPhoneField()->getIsMobile();
+    }
+
+    /**
+     * Set the value of isMobile
+     *
+     * @param bool $isMobile
+     * @return $this
+     */
+    public function setIsMobile(bool $isMobile)
+    {
+        $this->getPhoneField()->setIsMobile($isMobile);
+        return $this;
     }
 }
