@@ -13,12 +13,19 @@ use SilverStripe\ORM\DataExtension;
  */
 class PhoneNumberExtension extends DataExtension
 {
+    /**
+     * @var array<string,string>
+     */
     private static $db = array(
         'CountryCode' => 'Varchar(2)',
         'PhoneNumber' => DBPhone::class,
         'MobilePhoneNumber' => DBPhone::class,
     );
 
+    /**
+     * @param FieldList $fields
+     * @return void
+     */
     public function updateCMSFields(FieldList $fields)
     {
         $CountryCode = new DropdownField(
@@ -35,14 +42,11 @@ class PhoneNumberExtension extends DataExtension
         $PhoneNumber->setCountryField('CountryCode');
         $fields->addFieldToTab('Root.Main', $PhoneNumber);
 
-
         $MobilePhoneNumber = new PhoneField(
             'MobilePhoneNumber',
             _t('LibPhoneNumberExtension.MobilePhoneNumber', 'Mobile Phone')
         );
         $MobilePhoneNumber->setCountryField('CountryCode');
         $fields->addFieldToTab('Root.Main', $MobilePhoneNumber);
-
-        return $fields;
     }
 }

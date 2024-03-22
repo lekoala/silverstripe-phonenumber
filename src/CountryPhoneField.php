@@ -6,19 +6,22 @@ use Exception;
 use SilverStripe\Forms\FieldGroup;
 use libphonenumber\PhoneNumberFormat;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\DataObject;
 
 /**
  * A country/phone combo field
+ * You might want to use https://github.com/lekoala/silverstripe-form-elements/blob/master/src/TelInputField.php instead
  */
 class CountryPhoneField extends FieldGroup
 {
     /**
-     * @var ?string
+     * @var int
      */
-    protected $dataformat = null;
+    protected $dataformat = 0; // E164, see libphonenumber/PhoneNumberFormat
 
     public function __construct($name, $title = null, $value = null)
     {
+        PhoneHelper::listCountryPrefixes();
         $country = new DropdownField($name . "[CountryCode]", "");
         $country->setSource(PhoneHelper::getCountriesList());
         $country->setHasEmptyDefault(true);
@@ -55,17 +58,29 @@ class CountryPhoneField extends FieldGroup
         return $this->fieldByName($this->name . "[Number]");
     }
 
+    /**
+     * @return int
+     */
     public function getDataFormat()
     {
         return $this->dataformat;
     }
 
+    /**
+     * @param int $v Any of the libphonenumber/PhoneNumberFormat constant
+     * @return $this
+     */
     public function setDataFormat($v)
     {
         $this->dataformat = $v;
         return $this;
     }
 
+    /**
+     * @param mixed $value Either the parent object, or array of source data being loaded
+     * @param array<mixed>|DataObject|null $data {@see Form::loadDataFrom}
+     * @return $this
+     */
     public function setValue($value, $data = null)
     {
         $this->fieldByName($this->name . "[Number]")->setAttribute('data-value', $value);
@@ -75,7 +90,7 @@ class CountryPhoneField extends FieldGroup
             foreach ($value as $k => $v) {
                 $this->fieldByName($this->name . "[$k]")->setValue($v);
             }
-            return;
+            return $this;
         }
         // It's an international number
         if (strpos((string)$value, '+') === 0) {
@@ -88,11 +103,12 @@ class CountryPhoneField extends FieldGroup
                 $this->getPhoneField()->setValue($phone);
             } catch (Exception $ex) {
                 // We were unable to parse, simply set the value as is
-                $this->getPhoneField()->setValue($phone);
+                $this->getPhoneField()->setValue($value);
             }
         } else {
             $this->getPhoneField()->setValue($value);
         }
+        return $this;
     }
 
     /**
@@ -115,7 +131,7 @@ class CountryPhoneField extends FieldGroup
 
         try {
             $number = $util->parse($phoneValue, $countryValue);
-            $format = $this->dataformat ?? PhoneNumberFormat::E164;
+            $format = $this->dataformat;
             return $util->format($number, $format);
         } catch (Exception $ex) {
             // We were unable to parse, simply return the value as is

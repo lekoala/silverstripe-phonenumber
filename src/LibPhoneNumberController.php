@@ -2,6 +2,7 @@
 
 namespace LeKoala\PhoneNumber;
 
+use Exception;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use libphonenumber\NumberParseException;
@@ -13,11 +14,18 @@ use libphonenumber\NumberParseException;
  */
 class LibPhoneNumberController extends Controller
 {
+    /**
+     * @var array<string>
+     */
     private static $allowed_actions = [
         'validate',
         'format',
     ];
 
+    /**
+     * @param HTTPRequest $request
+     * @return int
+     */
     public function validate(HTTPRequest $request)
     {
         $fieldname = $request->getVar('field') ? $request->getVar('field') : 'number';
@@ -37,12 +45,17 @@ class LibPhoneNumberController extends Controller
             if ($result) {
                 return 1;
             }
-            return $this->httpError(400, 0);
-        } catch (NumberParseException $e) {
-            return $this->httpError(400, $e->getMessage());
+        } catch (Exception $e) {
+            // Not valid
         }
+        $this->getResponse()->setStatusCode(400);
+        return 0;
     }
 
+    /**
+     * @param HTTPRequest $request
+     * @return string The formatted number
+     */
     public function format(HTTPRequest $request)
     {
         $rawNumber = $request->getVar('number');
@@ -54,8 +67,9 @@ class LibPhoneNumberController extends Controller
                 $country,
                 $format
             );
-        } catch (NumberParseException $e) {
-            return $this->httpError(400, $e->getMessage());
+        } catch (Exception $e) {
+            // Unable to parse, return rawNumber
+            return $rawNumber;
         }
     }
 }

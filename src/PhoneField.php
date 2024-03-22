@@ -5,6 +5,7 @@ namespace LeKoala\PhoneNumber;
 use SilverStripe\Forms\TextField;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\NumberParseException;
+use SilverStripe\ORM\DataObject;
 
 /**
  * A simple phone field
@@ -15,18 +16,32 @@ use libphonenumber\NumberParseException;
  */
 class PhoneField extends TextField
 {
-    protected $countryField;
+    /**
+     * @var string|null
+     */
+    protected $countryField = null;
 
+    /**
+     * @return string
+     */
     public function getInputType()
     {
         return 'phone';
     }
 
+    /**
+     * @return string
+     */
     public function Type()
     {
         return 'text';
     }
 
+    /**
+     * @param mixed $value Either the parent object, or array of source data being loaded
+     * @param array<mixed>|DataObject|null $data {@see Form::loadDataFrom}
+     * @return $this
+     */
     public function setValue($value, $data = null)
     {
         $isInternational = strpos((string)$value, '+') === 0;
@@ -36,15 +51,15 @@ class PhoneField extends TextField
 
                 if (strpos((string)$countryValue, '+') === 0) {
                     // It's a + prefix, eg +33, +32
-                    $value = $countryValue . ltrim($value, 0);
+                    $value = $countryValue . ltrim((string)$value, "0");
                 } elseif (is_numeric($countryValue)) {
                     // It's a plain prefix, eg 33, 32
-                    $value = '+' . $countryValue . ltrim($value, 0);
+                    $value = '+' . $countryValue . ltrim((string)$value, "0");
                 } else {
                     // It's a country code (FR, BE...)
                     $countryValue = PhoneHelper::convertCountryCodeToPrefix($countryValue);
                     if ($countryValue) {
-                        $value = '+' . $countryValue . ltrim($value, 0);
+                        $value = '+' . $countryValue . ltrim((string)$value, "0");
                     }
                 }
             }
@@ -89,8 +104,9 @@ class PhoneField extends TextField
     }
 
     /**
-     * Get the value of countryField
-     * @return mixed
+     * Name of the country field
+     *
+     * @return string
      */
     public function getCountryField()
     {
@@ -98,9 +114,9 @@ class PhoneField extends TextField
     }
 
     /**
-     * Set the value of countryField
+     * Name of the country field
      *
-     * @param mixed $countryField
+     * @param string $countryField
      * @return $this
      */
     public function setCountryField($countryField)
