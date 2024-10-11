@@ -332,7 +332,7 @@ class PhoneHelper
      *
      * @throws NumberParseException
      * @param string $value
-     * @param string $country An ISO 3166-1 two letter country code (=> UPPERCASE).
+     * @param ?string $country An ISO 3166-1 two letter country code (=> UPPERCASE).
      * @return bool
      */
     public static function validatePhoneNumber($value, $country = null)

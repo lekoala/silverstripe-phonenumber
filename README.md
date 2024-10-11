@@ -1,6 +1,6 @@
 # SilverStripe PhoneNumber module
 
-[![Build Status](https://travis-ci.com/lekoala/silverstripe-phonenumber.svg?branch=master)](https://travis-ci.com/lekoala/silverstripe-phonenumber/)
+![Build Status](https://github.com/lekoala/silverstripe-phonenumber/actions/workflows/ci.yml/badge.svg)
 [![scrutinizer](https://scrutinizer-ci.com/g/lekoala/silverstripe-phonenumber/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lekoala/silverstripe-phonenumber/)
 [![Code coverage](https://codecov.io/gh/lekoala/silverstripe-phonenumber/branch/master/graph/badge.svg)](https://codecov.io/gh/lekoala/silverstripe-phonenumber)
 
@@ -16,17 +16,21 @@ Otherwise, current locale will be used.
 
 Sample code:
 
+```php
 	$phone = new PhoneField('phone', 'Phone number');
 	$phone->setCountryField('CountryCode');
 
 	$validator = ZenValidator::create();
 	$validator->setConstraint('phone', Constraint_remote::create('/__phonenumber/validate',null,array('data' => array('country' => 'BE'))));
+```
 
 This module also provide an extension to apply to dataobject, for example to members
 
-	SilverStripe\Security\Member:
-      extensions:
-        - LeKoala\PhoneNumber\PhoneNumberExtension
+```yml
+SilverStripe\Security\Member:
+  extensions:
+    - LeKoala\PhoneNumber\PhoneNumberExtension
+```
 
 ## Phone DBField
 
@@ -37,12 +41,13 @@ This will automatically scaffold a CountryPhoneField which is a combo field with
 ## Form fields
 
 Two available fields:
-- PhoneField : a plain phone field that supports national and international numbers
-- CountryPhoneField : a combo field with a country dropdown + national phone number
+
+-   PhoneField : a plain phone field that supports national and international numbers
+-   CountryPhoneField : a combo field with a country dropdown + national phone number
 
 ## Ajax validation and formatting
 
-Expose ´__phonenumber/validate´ and ´__phonenumber/format´ endpoints for validation and formatting of phone numbers
+Expose ´**phonenumber/validate´ and ´**phonenumber/format´ endpoints for validation and formatting of phone numbers
 
 ## Todo
 
@@ -50,7 +55,7 @@ None
 
 ## Compatibility
 
-Tested with 4.6 but should work on any ^4 projects
+Tested with 5.x but should work on any ^4|^5 projects
 
 ## Maintainer
 
