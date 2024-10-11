@@ -134,6 +134,11 @@ class DBPhone extends DBVarchar
         return $this->Format(PhoneNumberFormat::E164);
     }
 
+    public function Nice()
+    {
+        return $this->International();
+    }
+
     /**
      * Same as E164 with spacing
      * Eg: +44 117 496 0123
@@ -168,10 +173,11 @@ class DBPhone extends DBVarchar
     }
 
     /**
+     * @param ?string $country An ISO 3166-1 two letter country code (=> UPPERCASE).
      * @return boolean
      */
-    public function isValid()
+    public function isValid($country = null)
     {
-        return PhoneHelper::validatePhoneNumber($this->value);
+        return PhoneHelper::validatePhoneNumber($this->value, $country);
     }
 }
