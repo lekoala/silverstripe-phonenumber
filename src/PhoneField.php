@@ -10,6 +10,7 @@ use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberType;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Forms\Validator;
+use Exception;
 
 /**
  * A simple phone field
@@ -126,14 +127,20 @@ class PhoneField extends TextField
     public function validate($validator)
     {
         if ($this->isMobile && $this->value) {
+            $hasPlus = strpos((string)$this->value, '+') === 0;
             $util = PhoneHelper::getPhoneNumberUtil();
-            $number = $util->parse($this->value, $this->countryCode);
-            $type = $util->getNumberType($number);
-            if (!in_array($type, [PhoneNumberType::FIXED_LINE_OR_MOBILE, PhoneNumberType::MOBILE])) {
-                $validator->validationError(
-                    $this->name,
-                    _t('PhoneField.IsNotAMobileNumber', 'This is not a valid mobile number')
-                );
+            $region = $hasPlus ? null : $this->countryCode;
+            try {
+                $number = $util->parse($this->value, $region);
+                $type = $util->getNumberType($number);
+                if (!in_array($type, [PhoneNumberType::FIXED_LINE_OR_MOBILE, PhoneNumberType::MOBILE, PhoneNumberType::UNKNOWN])) {
+                    $validator->validationError(
+                        $this->name,
+                        _t('PhoneField.IsNotAMobileNumber', 'This is not a valid mobile number')
+                    );
+                }
+            } catch (Exception $e) {
+                // Don't block if parsing fails
             }
         }
         return parent::validate($validator);
