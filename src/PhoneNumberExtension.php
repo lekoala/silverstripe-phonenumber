@@ -4,14 +4,14 @@ namespace LeKoala\PhoneNumber;
 
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 
 /**
  * PhoneNumberExtension
  *
  * @author lekoala
  */
-class PhoneNumberExtension extends DataExtension
+class PhoneNumberExtension extends Extension
 {
     /**
      * @var array<string,string>

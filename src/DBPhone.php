@@ -6,6 +6,7 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\NumberParseException;
 use SilverStripe\ORM\FieldType\DBVarchar;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Model\ModelData;
 
 /**
  * Phone field type
@@ -47,7 +48,7 @@ class DBPhone extends DBVarchar
      * @param bool $markChanged
      * @return $this
      */
-    public function setValue($value, $record = null, $markChanged = true)
+    public function setValue(mixed $value, null|array|ModelData $record = null, bool $markChanged = true): static
     {
         if ($record && strpos((string)$value, '+') !== 0) {
             if ($record->CountryCode) {
@@ -105,7 +106,7 @@ class DBPhone extends DBVarchar
      * @param mixed $params
      * @return FormField
      */
-    public function scaffoldFormField($title = null, $params = null)
+    public function scaffoldFormField(?string $title = null, array $params = []): ?FormField
     {
         $field = CountryPhoneField::create($this->name, $title);
         return $field;
