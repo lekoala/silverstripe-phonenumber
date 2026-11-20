@@ -132,8 +132,8 @@ class CountryPhoneField extends FieldGroup
      */
     public function dataValue()
     {
-        $countryValue = $this->getCountryField()->Value();
-        $phoneValue = $this->getPhoneField()->Value();
+        $countryValue = $this->getCountryField()->getValue();
+        $phoneValue = $this->getPhoneField()->getValue();
         if (!$phoneValue) {
             return '';
         }

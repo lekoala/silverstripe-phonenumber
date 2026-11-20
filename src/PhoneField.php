@@ -153,7 +153,7 @@ class PhoneField extends TextField
      */
     public function dataValue()
     {
-        $value = $this->Value();
+        $value = $this->getValue();
 
         // It's an international number or we have a country set, format without spaces
         if (strpos((string)$value, '+') === 0 || $this->countryCode) {
